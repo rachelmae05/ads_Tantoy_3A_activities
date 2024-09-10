@@ -13,29 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/students/create', function () {
-    $student = new Student();
+    $student = new students();
     $student->first_name = 'John';
     $student->last_name = 'Doe';
     $student->email = 'johndoe@example.com';
     $student->age = 22;
     $student->save();
    return 'Student Created!';
-
 });
-
 
 
 Route::get('/students', function () {
 
     $students = Student::all();
-
     return $students;
-
 });
 
 Route::get('/students/update', function () {
@@ -49,5 +46,16 @@ Route::get('/students/update', function () {
 Route::get('/students/delete', function () {
     $students = Student::where('email', 'john.doe@newmail.com')->first();
     return 'Student Deleted';
+});
 
+Route::get('/courses/create', function () {
+    $course = new Course();
+    $course->course_name = 'Introduction to Databases';
+    $course->save();
+    return 'Course Created!';
+});
+
+Route::get('/course/{id}students', function ($id) {
+    $course = Course::find($id);
+    return $course->students;
 });
